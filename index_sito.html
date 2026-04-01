@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luka Markovic — AI Developer & Data Analyst</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080c14;
+      --bg-card:   #0f1523;
+      --bg-card2:  #141c2e;
+      --border:    #1a2238;
+      --border2:   #232f4a;
+      --text:      #e2e8f8;
+      --muted:     #7a8aaa;
+      --dim:       #3a4a6a;
+      --accent:    #7c6aff;
+      --accent2:   #ff6a9b;
+      --accent3:   #6affd4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+      background: rgba(8,12,20,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 18px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 1080px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-layout {
+      min-height: calc(100vh - 12rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .dot-pulse {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    .eyebrow-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-title .t1 { color: var(--accent); }
+    .hero-title .sep { color: var(--dim); margin: 0 10px; }
+    .hero-title .t2 { color: var(--accent2); }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 500px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .hero-photo-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 280px;
+      justify-self: center;
+      animation: fadeUp 0.7s 0.35s ease both;
+      z-index: 1;
+    }
+
+    .hero-photo-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      background:
+        radial-gradient(circle at top, rgba(124,106,255,0.32), transparent 58%),
+        radial-gradient(circle at bottom, rgba(106,255,212,0.18), transparent 55%);
+      filter: blur(24px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-photo-frame {
+      position: relative;
+      padding: 12px;
+      border-radius: 28px;
+      background: linear-gradient(160deg, rgba(124,106,255,0.22), rgba(255,106,155,0.18) 45%, rgba(106,255,212,0.12));
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.32);
+      z-index: 1;
+    }
+
+    .hero-photo {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 20px;
+      border: 1px solid var(--border2);
+      background: rgba(8, 12, 20, 0.45);
+    }
+
+    @media (max-width: 980px) {
+      .hero-layout { grid-template-columns: 1fr; gap: 2rem; min-height: auto; }
+      .hero-copy { max-width: none; }
+      .hero-photo-wrap { justify-self: start; max-width: 240px; }
+      .hero-scroll { position: static; margin-top: 2rem; }
+    }
+
+    .btn {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-accent:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--muted); border: 1px solid var(--border2); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem; left: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeUp 0.7s 0.6s ease both;
+    }
+    .scroll-line { width: 40px; height: 1px; background: var(--dim); }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 3rem;
+    }
+    .section-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+
+    .about-stats { display: flex; flex-direction: column; gap: 16px; }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      transition: border-color 0.2s;
+    }
+    .stat-card:hover { border-color: var(--border2); }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: flex; flex-direction: column; gap: 20px; }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+    .project-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+
+    .project-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .tag-purple { background: rgba(124,106,255,0.12); color: var(--accent);  border: 1px solid rgba(124,106,255,0.2); }
+    .tag-pink   { background: rgba(255,106,155,0.12); color: var(--accent2); border: 1px solid rgba(255,106,155,0.2); }
+
+    .project-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .project-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+    .stack-pill {
+      font-size: 11px;
+      color: var(--dim);
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .project-arrow {
+      font-size: 20px;
+      color: var(--dim);
+      transition: color 0.2s, transform 0.2s;
+      padding-top: 4px;
+    }
+    .project-card:hover .project-arrow { color: var(--accent); transform: translate(3px, -3px); }
+
+    .wip-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255,193,7,0.1);
+      color: #ffc107;
+      border: 1px solid rgba(255,193,7,0.2);
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .skill-group {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      transition: border-color 0.2s;
+    }
+    .skill-group:hover { border-color: var(--border2); }
+    .skill-group-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .skill-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-item {
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 6px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-item:hover { border-color: var(--border2); color: var(--text); }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+    }
+    .contact-heading {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    .contact-sub {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 420px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+    .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    .contact-chip {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 11px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .contact-chip:hover { transform: translateY(-2px); }
+    .contact-chip.upwork { border-color: rgba(124,106,255,0.3); color: var(--accent); }
+    .contact-chip.upwork:hover { background: rgba(124,106,255,0.08); }
+    .contact-chip.github { border-color: rgba(106,255,212,0.3); color: var(--accent3); }
+    .contact-chip.github:hover { background: rgba(106,255,212,0.06); }
+    .contact-chip.email:hover { border-color: var(--border2); color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 12px;
+      color: var(--dim);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .hero, section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .hero-photo-wrap { max-width: 220px; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .project-card { grid-template-columns: 1fr; }
+      .contact-inner { padding: 2rem 1.5rem; }
+      .hero-name { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">LM<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="https://www.upwork.com/freelancers/~01e06d761c7114fa92" target="_blank">Hire me ↗</a>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-layout">
+      <div class="hero-copy">
+    <div class="hero-eyebrow">
+      <div class="dot-pulse"></div>
+      <span class="eyebrow-text">Available for freelance work</span>
+    </div>
+    <h1 class="hero-name">Luka Markovic</h1>
+    <div class="hero-title">
+      <span class="t1">AI Developer</span>
+      <span class="sep">/</span>
+      <span class="t2">Data Analyst</span>
+    </div>
+    <p class="hero-sub">
+      I build intelligent Python tools, automation bots, and data-driven applications.
+      Focused on clean code, real results, and scalable solutions.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-accent" href="#projects">View Projects</a>
+      <a class="btn btn-outline" href="https://www.upwork.com/freelancers/~01e06d761c7114fa92" target="_blank">Upwork ↗</a>
+      <a class="btn btn-outline" href="https://github.com/lukaasrb" target="_blank">GitHub ↗</a>
+    </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-frame">
+          <img class="hero-photo" src="assets/IMG_3307.jpg" alt="Portrait of Luka Markovic" />
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>Python developer</strong> focused on AI integration, automation, and data analysis. I'm currently building my portfolio with real, functional projects — starting from the ground up with a focus on quality and clean architecture.</p>
+        <p>My approach is simple: <strong>ship working software</strong>, learn fast, and improve with every project. I enjoy turning complex problems into elegant, automated solutions.</p>
+        <p>Currently open to freelance opportunities on <strong>Upwork</strong> — bots, data pipelines, API integrations, or automation scripts.</p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <div class="stat-num" style="color: var(--accent);">1+</div>
+          <div class="stat-label">Projects completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" style="color: var(--accent2);">100%</div>
+          <div class="stat-label">Async architecture</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" style="color: var(--accent3);">4</div>
+          <div class="stat-label">Core technologies</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <a class="project-card reveal" href="https://github.com/lukaasrb" target="_blank">
+        <div>
+          <div class="project-tag tag-purple">Bot · API · Data</div>
+          <div class="project-name">CryptoTrackBot</div>
+          <p class="project-desc">Async Telegram bot for real-time cryptocurrency monitoring. Fetches live prices from CoinGecko, generates 7-day trend charts on-the-fly, and sends automated price alerts — all non-blocking.</p>
+          <div class="project-stack">
+            <span class="stack-pill">Python</span>
+            <span class="stack-pill">Aiogram 3</span>
+            <span class="stack-pill">Aiohttp</span>
+            <span class="stack-pill">Pandas</span>
+            <span class="stack-pill">Matplotlib</span>
+            <span class="stack-pill">CoinGecko API</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <div class="project-card reveal" style="cursor: default; opacity: 0.45; pointer-events: none;">
+        <div>
+          <div class="project-tag tag-pink">Coming soon <span class="wip-badge">WIP</span></div>
+          <div class="project-name">Next Project</div>
+          <p class="project-desc">More projects in progress. Follow on GitHub for updates.</p>
+          <div class="project-stack">
+            <span class="stack-pill">Python</span>
+            <span class="stack-pill">TBD</span>
+          </div>
+        </div>
+        <div class="project-arrow">—</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="skill-group-title" style="color: var(--accent);">Languages</div>
+        <div class="skill-items">
+          <span class="skill-item">Python</span>
+          <span class="skill-item">SQL</span>
+          <span class="skill-item">Bash</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title" style="color: var(--accent2);">Frameworks</div>
+        <div class="skill-items">
+          <span class="skill-item">Aiogram 3</span>
+          <span class="skill-item">Aiohttp</span>
+          <span class="skill-item">Pandas</span>
+          <span class="skill-item">Matplotlib</span>
+          <span class="skill-item">Asyncio</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title" style="color: var(--accent3);">APIs & Tools</div>
+        <div class="skill-items">
+          <span class="skill-item">CoinGecko API</span>
+          <span class="skill-item">Telegram Bot API</span>
+          <span class="skill-item">REST APIs</span>
+          <span class="skill-item">Git & GitHub</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title" style="color: #ffc107;">Focus Areas</div>
+        <div class="skill-items">
+          <span class="skill-item">Bot Development</span>
+          <span class="skill-item">Automation</span>
+          <span class="skill-item">Data Analysis</span>
+          <span class="skill-item">API Integration</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-inner reveal">
+      <div class="contact-heading">Let's work together</div>
+      <p class="contact-sub">Open to freelance projects — bots, automation, data analysis, API integrations. Reach out and let's build something.</p>
+      <div class="contact-links">
+        <a class="contact-chip upwork" href="https://www.upwork.com/freelancers/~01e06d761c7114fa92" target="_blank">Upwork ↗</a>
+        <a class="contact-chip github" href="https://github.com/lukaasrb" target="_blank">GitHub ↗</a>
+        <a class="contact-chip email" href="mailto:lukamarkovic493@gmail.com">lukamarkovic493@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Luka Markovic · Built with code & caffeine</footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
