@@ -77,6 +77,40 @@
     }
     .nav-cta:hover { opacity: 0.85; }
 
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .nav-toggle {
+      display: none;
+      width: 38px; height: 38px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: transparent;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .nav-toggle:hover { border-color: var(--accent); }
+
+    .nav-toggle-bars { position: relative; display: block; width: 16px; height: 10px; }
+    .nav-toggle-bars span {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+    .nav-toggle-bars span:nth-child(1) { top: 0; }
+    .nav-toggle-bars span:nth-child(2) { top: 4.25px; }
+    .nav-toggle-bars span:nth-child(3) { top: 8.5px; }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(1) { transform: translateY(4.25px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bars span:nth-child(3) { transform: translateY(-4.25px) rotate(-45deg); }
+
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
@@ -370,19 +404,6 @@
     }
     .project-card:hover .project-arrow { color: var(--accent); transform: translate(3px, -3px); }
 
-    .wip-badge {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 2px 8px;
-      border-radius: 4px;
-      background: rgba(255,193,7,0.1);
-      color: #ffc107;
-      border: 1px solid rgba(255,193,7,0.2);
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-
     /* ── SKILLS ── */
     .skills-grid {
       display: grid;
@@ -482,7 +503,28 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
       nav { padding: 0 1.25rem; }
-      .nav-links { display: none; }
+
+      .nav-toggle { display: inline-flex; }
+
+      .nav-links {
+        position: fixed;
+        top: 60px; left: 0; right: 0;
+        flex-direction: column;
+        gap: 0;
+        padding: 0.25rem 1.25rem 0.75rem;
+        background: rgba(8,12,20,0.97);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+      }
+      .nav-links.open { opacity: 1; visibility: visible; transform: translateY(0); }
+      .nav-links li { border-bottom: 1px solid var(--border); }
+      .nav-links li:last-child { border-bottom: none; }
+      .nav-links a { display: block; padding: 14px 2px; font-size: 14px; }
+
       .hero, section { padding-left: 1.25rem; padding-right: 1.25rem; }
       .hero-photo-wrap { max-width: 220px; }
       .about-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -496,13 +538,18 @@
 
   <nav>
     <div class="nav-logo">LM<span>.</span></div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a class="nav-cta" href="https://www.upwork.com/freelancers/~01e06d761c7114fa92" target="_blank">Hire me ↗</a>
+    <div class="nav-actions">
+      <a class="nav-cta" href="https://www.upwork.com/freelancers/~01e06d761c7114fa92" target="_blank">Hire me ↗</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-controls="nav-links" aria-expanded="false">
+        <span class="nav-toggle-bars"><span></span><span></span><span></span></span>
+      </button>
+    </div>
   </nav>
 
   <div class="hero">
@@ -530,7 +577,7 @@
       </div>
       <div class="hero-photo-wrap">
         <div class="hero-photo-frame">
-          <img class="hero-photo" src="assets/IMG_3307.jpg" alt="Portrait of Luka Markovic" />
+          <img class="hero-photo" src="assets/luka-markovic.jpg" alt="Portrait of Luka Markovic" width="800" height="1067" />
         </div>
       </div>
     </div>
@@ -554,16 +601,16 @@
       </div>
       <div class="about-stats reveal">
         <div class="stat-card">
-          <div class="stat-num" style="color: var(--accent);">1+</div>
-          <div class="stat-label">Projects completed</div>
+          <div class="stat-num" style="color: var(--accent);">94.7%</div>
+          <div class="stat-label">Fault detection precision</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" style="color: var(--accent2);">100%</div>
-          <div class="stat-label">Async architecture</div>
+          <div class="stat-num" style="color: var(--accent2);">200</div>
+          <div class="stat-label">Fleet devices analysed</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" style="color: var(--accent3);">4</div>
-          <div class="stat-label">Core technologies</div>
+          <div class="stat-num" style="color: var(--accent3);">0</div>
+          <div class="stat-label">Labels required</div>
         </div>
       </div>
     </div>
@@ -576,35 +623,39 @@
       <div class="section-line"></div>
     </div>
     <div class="projects-grid">
-      <a class="project-card reveal" href="https://github.com/lukaasrb" target="_blank">
+      <a class="project-card reveal" href="https://github.com/lukaasrb/solar-fleet-anomaly-detection" target="_blank" rel="noopener">
         <div>
-          <div class="project-tag tag-purple">Bot · API · Data</div>
-          <div class="project-name">CryptoTrackBot</div>
-          <p class="project-desc">Async Telegram bot for real-time cryptocurrency monitoring. Fetches live prices from CoinGecko, generates 7-day trend charts on-the-fly, and sends automated price alerts — all non-blocking.</p>
+          <div class="project-tag tag-purple">Machine Learning · Anomaly Detection · LLM</div>
+          <div class="project-name">Solar Fleet Anomaly Detection</div>
+          <p class="project-desc">Unsupervised battery-fault detection for solar IoT fleets. A six-channel rule engine with self-referential baselines catches six fault types across 200 devices at 94.7% precision — no labeled training data required. An LLM layer turns each alert into a field briefing and audits every numeric claim it makes.</p>
           <div class="project-stack">
             <span class="stack-pill">Python</span>
-            <span class="stack-pill">Aiogram 3</span>
-            <span class="stack-pill">Aiohttp</span>
+            <span class="stack-pill">scikit-learn</span>
             <span class="stack-pill">Pandas</span>
-            <span class="stack-pill">Matplotlib</span>
-            <span class="stack-pill">CoinGecko API</span>
+            <span class="stack-pill">NumPy</span>
+            <span class="stack-pill">K-Means</span>
+            <span class="stack-pill">Claude API</span>
           </div>
         </div>
         <div class="project-arrow">↗</div>
       </a>
 
-      <div class="project-card reveal" style="cursor: default; opacity: 0.45; pointer-events: none;">
+      <a class="project-card reveal" href="https://github.com/lukaasrb/night-fleet-anomaly-detection" target="_blank" rel="noopener">
         <div>
-          <div class="project-tag tag-pink">Coming soon <span class="wip-badge">WIP</span></div>
-          <div class="project-name">Next Project</div>
-          <p class="project-desc">More projects in progress. Follow on GitHub for updates.</p>
+          <div class="project-tag tag-pink">Machine Learning · Data Pipeline</div>
+          <div class="project-name">Night Fleet Anomaly Detection</div>
+          <p class="project-desc">Two-stage pipeline that flags failing batteries in night-charging e-paper fleets before they fail in the field. K-Means cohort benchmarking on geography and electrical behaviour, then four independent statistical rules — acute shock, chronic degradation, progressive decline, missed recharge — at 93% precision on field-validated outcomes.</p>
           <div class="project-stack">
             <span class="stack-pill">Python</span>
-            <span class="stack-pill">TBD</span>
+            <span class="stack-pill">scikit-learn</span>
+            <span class="stack-pill">Pandas</span>
+            <span class="stack-pill">NumPy</span>
+            <span class="stack-pill">SQLite</span>
+            <span class="stack-pill">SQL Server</span>
           </div>
         </div>
-        <div class="project-arrow">—</div>
-      </div>
+        <div class="project-arrow">↗</div>
+      </a>
     </div>
   </section>
 
@@ -624,11 +675,11 @@
         </div>
       </div>
       <div class="skill-group reveal">
-        <div class="skill-group-title" style="color: var(--accent2);">Frameworks</div>
+        <div class="skill-group-title" style="color: var(--accent2);">Libraries</div>
         <div class="skill-items">
-          <span class="skill-item">Aiogram 3</span>
-          <span class="skill-item">Aiohttp</span>
+          <span class="skill-item">scikit-learn</span>
           <span class="skill-item">Pandas</span>
+          <span class="skill-item">NumPy</span>
           <span class="skill-item">Matplotlib</span>
           <span class="skill-item">Asyncio</span>
         </div>
@@ -636,8 +687,9 @@
       <div class="skill-group reveal">
         <div class="skill-group-title" style="color: var(--accent3);">APIs & Tools</div>
         <div class="skill-items">
-          <span class="skill-item">CoinGecko API</span>
-          <span class="skill-item">Telegram Bot API</span>
+          <span class="skill-item">Claude API</span>
+          <span class="skill-item">SQLite</span>
+          <span class="skill-item">SQL Server</span>
           <span class="skill-item">REST APIs</span>
           <span class="skill-item">Git & GitHub</span>
         </div>
@@ -645,10 +697,10 @@
       <div class="skill-group reveal">
         <div class="skill-group-title" style="color: #ffc107;">Focus Areas</div>
         <div class="skill-items">
-          <span class="skill-item">Bot Development</span>
-          <span class="skill-item">Automation</span>
+          <span class="skill-item">Anomaly Detection</span>
+          <span class="skill-item">Machine Learning</span>
           <span class="skill-item">Data Analysis</span>
-          <span class="skill-item">API Integration</span>
+          <span class="skill-item">LLM Integration</span>
         </div>
       </div>
     </div>
@@ -674,6 +726,27 @@
   <footer>© 2026 Luka Markovic · Built with code & caffeine</footer>
 
   <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    const setNav = (open) => {
+      navToggle.setAttribute('aria-expanded', String(open));
+      navLinks.classList.toggle('open', open);
+    };
+
+    navToggle.addEventListener('click', () => {
+      setNav(navToggle.getAttribute('aria-expanded') !== 'true');
+    });
+    navLinks.addEventListener('click', (e) => {
+      if (e.target.closest('a')) setNav(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setNav(false);
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 700) setNav(false);
+    });
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
         if (e.isIntersecting) {
